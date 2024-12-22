@@ -46,3 +46,42 @@ def create_board():
     }
 
     return response, 201
+
+def validate_board_id(board_id):
+    try: 
+        board_id = int(board_id)
+    except:
+        response = {"message": f"Board {board_id} invalid."}
+        abort(make_response(response, 400))
+
+    query = db.select(Board).where(Board.board_id==board_id)
+    board = db.session.scalar(query)
+    
+    if not board:
+        response = {"message": f"Goal {board_id} not found."}
+        abort(make_response(response, 404))
+    return board
+
+
+@boards_bp.delete("/<board_id>")
+def delete_board(board_id):
+    board = validate_board_id(board_id)
+    db.session.delete(board)
+    db.session.commit()
+
+    response_message = f'Goal {board.board_id} {board.title} successfully deleted.'
+    response_body = {'details': response_message}
+
+    return response_body, 200
+
+@boards_bp.get("/<board_id>")
+def get_one_board(board_id):
+    board = validate_board_id(board_id)
+
+    return {"board":{
+        "board_id": board.board_id,
+        "title": board.title,
+        "owner": board.owner}
+            }
+
+
