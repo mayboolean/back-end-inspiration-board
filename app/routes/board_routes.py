@@ -58,7 +58,7 @@ def validate_board_id(board_id):
     board = db.session.scalar(query)
     
     if not board:
-        response = {"message": f"Goal {board_id} not found."}
+        response = {"message": f"Board {board_id} not found."}
         abort(make_response(response, 404))
     return board
 
@@ -69,7 +69,7 @@ def delete_board(board_id):
     db.session.delete(board)
     db.session.commit()
 
-    response_message = f'Goal {board.board_id} {board.title} successfully deleted.'
+    response_message = f'Board {board.board_id} {board.title} successfully deleted.'
     response_body = {'details': response_message}
 
     return response_body, 200
@@ -83,5 +83,36 @@ def get_one_board(board_id):
         "title": board.title,
         "owner": board.owner}
             }
+
+@boards_bp.put("/<board_id>")
+def update_board(board_id):
+    board = validate_board_id(board_id)
+    request_body = request.get_json()
+    title = request_body.get("title")
+    owner = request_body.get("owner")
+
+    if title is None or owner is None:
+        response = {"details": "Invalid data. 'title' and 'owner' are required."}
+        return response, 400
+
+    board.title = title
+    board.owner = owner
+
+    db.session.commit()
+
+    response =  {"board":{
+        "board_id": board.board_id,
+        "title": board.title,
+        "owner": board.owner}
+            }
+    return response, 200
+
+
+
+
+
+
+
+
 
 
