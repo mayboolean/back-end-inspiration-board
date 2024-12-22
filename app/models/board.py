@@ -1,3 +1,4 @@
+from app.models.card import Card
 from ..db import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
