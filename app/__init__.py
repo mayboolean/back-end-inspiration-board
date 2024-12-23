@@ -6,6 +6,8 @@ import os
 from .models.base import Base
 from .models.board import Board
 from .models.card import Card
+from .routes.board_routes import bp as boards_bp
+
 
 def create_app(config=None):
     app = Flask(__name__)
@@ -21,6 +23,7 @@ def create_app(config=None):
     migrate.init_app(app, db)
 
     # Register Blueprints (routes)
+    app.register_blueprint(boards_bp)
 
     CORS(app)
     return app
