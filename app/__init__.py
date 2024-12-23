@@ -7,6 +7,7 @@ from .models.base import Base
 from .models.board import Board
 from .models.card import Card
 from .routes.board_routes import bp as boards_bp
+from .routes.card_routes import bp as cards_bp
 
 
 def create_app(config=None):
@@ -24,6 +25,7 @@ def create_app(config=None):
 
     # Register Blueprints (routes)
     app.register_blueprint(boards_bp)
+    app.register_blueprint(cards_bp)
 
     CORS(app)
     return app
