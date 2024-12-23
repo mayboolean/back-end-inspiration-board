@@ -15,6 +15,7 @@ class Card(db.Model):
         instance of card -> dict
         '''
         card_as_dict = {}
+        card_as_dict["id"] = self.id
         card_as_dict["message"] = self.message
         card_as_dict["likes_count"] = self.likes_count
         card_as_dict["board_id"] = self.board_id

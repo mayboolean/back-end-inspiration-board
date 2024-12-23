@@ -33,18 +33,7 @@ def create_board():
     takes request body, creates Board instance, adds+commits to db
     '''
     request_body = request.get_json()
-
-    try:
-        new_board = Board.from_dict(request_body)
-    
-    except KeyError as error:
-        response = {"message": f"Invalid request: missing {error.args[0]}"}
-        abort(make_response(response, 400))
-    
-    db.session.add(new_board)
-    db.session.commit()
-
-    return new_board.to_dict(), 200
+    return create_model(Board, request_body)
 
 @bp.post("/<board_id>/cards")
 def create_card_of_select_board(board_id):
@@ -58,3 +47,12 @@ def create_card_of_select_board(board_id):
     # add board_id (column in Card model)to the req body dict
     request_body["board_id"] = board_id
     return create_model(Card, request_body)
+
+@bp.get("/<board_id>/cards")
+def get_cards_of_select_board(board_id):
+    '''
+    req: board_id -> response: cards (dict) of selected board
+    '''
+    board = validate_model(Board, board_id)
+    response = [card.to_dict() for card in board.cards]
+    return response
