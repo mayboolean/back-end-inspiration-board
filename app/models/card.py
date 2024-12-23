@@ -1,4 +1,3 @@
-from app.models.board import Board
 from ..db import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional
