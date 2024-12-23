@@ -21,4 +21,20 @@ def validate_model(cls, model_id):
     
     return model
 
+def create_model(cls, request_body):
+    '''
+    creates an instance of cls with the request body 
+    if missing keys, throws an error
+    if not, adds to db, and returns new_models dict rep. and 200
+    '''
+    try:
+        new_model = cls.from_dict(request_body)
+    except KeyError as error:
+        response = {"message": "Invalid request: missing {error.args[0]}"}
+        abort(make_response(response, 400))
+    
+    db.session.add(new_model)
+    db.session.commit()
+
+    return new_model.to_dict(), 201
 
