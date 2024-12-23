@@ -45,7 +45,7 @@ def create_card_of_select_board(board_id):
 
     request_body = request.get_json()
     # add board_id (column in Card model)to the req body dict
-    request_body["board_id"] = board_id
+    request_body["board_id"] = board.id
     return create_model(Card, request_body)
 
 @bp.get("/<board_id>/cards")
