@@ -28,4 +28,5 @@ def create_app(config=None):
     app.register_blueprint(cards_bp)
 
     CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     return app

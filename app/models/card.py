@@ -31,7 +31,7 @@ class Card(db.Model):
         '''
         new_card = cls(
             message=request_body["message"],
-            likes_count=request_body["likes_count"],
+            likes_count=request_body.get("likes_count", 0),
             board_id=request_body["board_id"]
         )
         return new_card
