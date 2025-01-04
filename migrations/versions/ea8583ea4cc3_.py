@@ -1,8 +1,8 @@
-"""creates new db with changed col id
+"""empty message
 
-Revision ID: 08c5511860c5
+Revision ID: ea8583ea4cc3
 Revises: 
-Create Date: 2024-12-22 22:30:49.705138
+Create Date: 2025-01-02 10:17:10.853675
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '08c5511860c5'
+revision = 'ea8583ea4cc3'
 down_revision = None
 branch_labels = None
 depends_on = None
