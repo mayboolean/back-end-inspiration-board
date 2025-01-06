@@ -16,9 +16,17 @@ def get_all_cards():
     '''
     request: None -> list of dict of card objects
     '''
-    query = db.select(Card).order_by(Card.id)
+    query = db.select(Card)
+    sort_by = request.args.get("sort_by")
+    if sort_by == "message":
+        query = query.order_by(Card.message.asc())
+    elif sort_by == "likes_count":
+        query = query.order_by(Card.likes_count.desc())
+    elif sort_by == "id":
+        query = query.order_by(Card.id.asc())
+    else:
+        query = query.order_by(Card.id.asc())
     cards = db.session.scalars(query)
-
     cards_response = []
     for card in cards:
         cards_response.append(card.to_dict())
